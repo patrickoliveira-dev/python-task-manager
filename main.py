@@ -3,7 +3,8 @@ from models.tarefa import Tarefa
 from tarefas import (
     salvar_tarefa,
     mostrar_tarefas,
-    concluir_tarefa
+    concluir_tarefa,
+    excluir_tarefa
 )
 
 while True:
@@ -12,7 +13,8 @@ while True:
     print("1 - Adicionar tarefa")
     print("2 - Listar tarefas")
     print("3 - Concluir tarefa")
-    print("4 - Sair")
+    print("4 - Excluir tarefa")
+    print("5 - Sair")
 
     opcao = input("\nEscolha uma opção: ")
 
@@ -41,6 +43,10 @@ while True:
         concluir_tarefa()
 
     elif opcao == "4":
+
+        excluir_tarefa()
+
+    elif opcao == "5":
 
         print("\nEncerrando programa...")
         break
