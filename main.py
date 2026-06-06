@@ -4,7 +4,8 @@ from tarefas import (
     salvar_tarefa,
     mostrar_tarefas,
     concluir_tarefa,
-    excluir_tarefa
+    excluir_tarefa,
+    mostrar_estatísticas
 )
 
 while True:
@@ -14,7 +15,8 @@ while True:
     print("2 - Listar tarefas")
     print("3 - Concluir tarefa")
     print("4 - Excluir tarefa")
-    print("5 - Sair")
+    print("5 - Estatísticas")
+    print("6 - Sair")
 
     opcao = input("\nEscolha uma opção: ")
 
@@ -47,6 +49,10 @@ while True:
         excluir_tarefa()
 
     elif opcao == "5":
+
+        mostrar_estatísticas()
+
+    elif opcao == "6":
 
         print("\nEncerrando programa...")
         break
