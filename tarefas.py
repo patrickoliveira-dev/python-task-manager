@@ -85,6 +85,14 @@ def concluir_tarefa():
         )
     )
 
+    if numero < 1 or numero > len(tarefas):
+
+        print(
+            "\n❌ Número inválido."
+        )
+
+        return
+
     indice = numero - 1
 
     dados = tarefas[indice]
@@ -148,6 +156,14 @@ def excluir_tarefa():
         )
     )
 
+    if numero < 1 or numero > len(tarefas):
+
+        print(
+            "\n❌ Número inválido."
+        )
+
+        return
+
     indice = numero - 1
 
     removida = tarefas.pop(indice)
@@ -185,6 +201,20 @@ def mostrar_estatísticas():
         else:
 
             pendentes += 1
+    
+    if tarefas_concluidas:
+
+        ultima_concluida = max(
+            tarefas_concluidas,
+            key=lambda tarefa: datetime.strptime(
+                tarefa["data_conclusao"],
+                "%d/%m/%Y %H:%M:%S"
+            )
+        )
+
+    else:
+
+        ultima_concluida = None
 
     taxa_conclusao = (concluidas / total) * 100
 
@@ -210,4 +240,90 @@ def mostrar_estatísticas():
 
     print(f"\n🕒 Primeira tarefa criada: \n{primeira_criada["titulo"]}\n{primeira_criada["data_criacao"]}")
 
-    print(f"\n🏁 Última tarefa concluída: \n{ultima_concluida["titulo"]}\n{ultima_concluida["data_conclusao"]}")
+    if ultima_concluida:
+
+        print(
+            f"\n🏁 Última tarefa concluída:"
+            f"\n{ultima_concluida['titulo']}"
+            f"\n{ultima_concluida['data_conclusao']}"
+        )
+
+    else:
+
+        print(
+            "\n🏁 Nenhuma tarefa concluída ainda."
+        )
+    
+def editar_tarefa():
+
+    tarefas = carregar_tarefas()
+
+    if not tarefas:
+
+        print(
+            "\nNenhuma tarefa encontrada."
+        )
+
+        return
+    
+    print("\n=== TAREFAS ===")
+
+    for indice, dados in enumerate(
+        tarefas,
+        start=1
+    ):
+
+        print(
+            f"{indice} - "
+            f"{dados['titulo']}"
+        )
+    
+    numero = int(
+        input(
+            "\nDigite o número da tarefa: "
+        )
+    )
+
+    if numero < 1 or numero > len(tarefas):
+
+        print(
+            "\n❌ Número inválido."
+        )
+
+        return
+
+    indice = numero - 1
+
+    tarefa = tarefas[indice]
+
+    print(
+        f"\nTítulo atual: "
+        f"{tarefa['titulo']}"
+    )
+
+    novo_titulo = input(
+    "\nNovo título: "
+    )
+
+    if novo_titulo:
+
+        tarefa["titulo"] = novo_titulo
+
+    print(
+        f"\nDescrição atual: "
+        f"{tarefa['descricao']}"
+    )
+
+    nova_descricao = input(
+    "\nNova descrição: "
+    )
+
+    if nova_descricao:
+
+        tarefa["descricao"] = nova_descricao
+
+    salvar_tarefas(tarefas)
+
+    print(
+        "\n✅ Tarefa editada com sucesso."
+    )
