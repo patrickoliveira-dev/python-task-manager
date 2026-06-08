@@ -302,7 +302,7 @@ def editar_tarefa():
     )
 
     novo_titulo = input(
-    "\nNovo título: "
+        "\nNovo título: "
     )
 
     if novo_titulo:
@@ -315,7 +315,7 @@ def editar_tarefa():
     )
 
     nova_descricao = input(
-    "\nNova descrição: "
+        "\nNova descrição: "
     )
 
     if nova_descricao:
@@ -327,3 +327,69 @@ def editar_tarefa():
     print(
         "\n✅ Tarefa editada com sucesso."
     )
+
+def filtrar_tarefas():
+
+    tarefas = carregar_tarefas()
+
+    if not tarefas:
+
+        print(
+            "\nNenhuma tarefa encontrada."
+        )
+
+        return
+    
+    print("\n=== FILTROS ===")
+
+    print("1 - Todas")
+    print("2 - Pendentes")
+    print("3 - Concluídas")
+
+    opcao = input(
+        "\nEscolha uma opção: "
+    )
+
+    if opcao == "1":
+
+        tarefas_filtradas = tarefas
+
+    elif opcao == "2":
+
+        tarefas_filtradas = [
+            tarefa
+            for tarefa in tarefas
+            if not tarefa["concluida"]
+        ]
+    
+    elif opcao == "3":
+
+        tarefas_filtradas = [
+            tarefa
+            for tarefa in tarefas
+            if tarefa["concluida"]
+        ]
+    
+    else:
+
+        print(
+            "\nOpção inválida."
+        )
+
+        return
+    
+    if not tarefas_filtradas:
+
+        print(
+            "\nNenhuma tarefa encontrada."
+        )
+
+        return
+    
+    for dados in tarefas_filtradas:
+
+        tarefa = Tarefa.from_dict(
+            dados
+        )
+
+        tarefa.exibir()
