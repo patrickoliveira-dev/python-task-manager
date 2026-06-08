@@ -393,3 +393,42 @@ def filtrar_tarefas():
         )
 
         tarefa.exibir()
+
+def buscar_tarefa():
+
+    tarefas = carregar_tarefas()
+
+    if not tarefas:
+
+        print(
+            "\nNenhuma tarefa encontrada."
+        )
+
+        return
+
+    texto = input(
+        "\nDigite um termo: "
+    ).lower()
+
+    tarefas_encontradas = [
+        tarefa
+        for tarefa in tarefas
+        if texto in tarefa["titulo"].lower()
+        or texto in tarefa["descricao"].lower()
+    ]
+    
+    if not tarefas_encontradas:
+
+        print(
+            "\nNenhuma tarefa encontrada."
+        )
+
+        return
+    
+    for dados in tarefas_encontradas:
+
+        tarefa = Tarefa.from_dict(
+            dados
+        )
+
+        tarefa.exibir()
