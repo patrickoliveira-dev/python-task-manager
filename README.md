@@ -72,7 +72,6 @@ task_manager/
 │
 ├── main.py
 ├── tarefas.py
-├── tarefas.json
 │
 ├── models/
 │   └── tarefa.py
