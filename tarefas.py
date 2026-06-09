@@ -14,11 +14,9 @@ def salvar_tarefa(tarefa):
 
 def mostrar_tarefas():
 
-    tarefas = carregar_tarefas()
-    
-    if not tarefas:
+    tarefas = obter_tarefas()
 
-        print("\nNenhuma tarefa encontrada")
+    if tarefas is None:
         return
     
     print ("\n=== TAREFAS ===")
@@ -65,43 +63,15 @@ def carregar_tarefas():
     
 def concluir_tarefa():
 
-    tarefas = carregar_tarefas()
+    tarefas = obter_tarefas()
 
-    if not tarefas:
-
-        print(
-            "\nNenhuma tarefa encontrada."
-        )
-
-        return
-    
-    print("\n=== TAREFAS ===")
-
-    for indice, dados in enumerate(
-        tarefas,
-        start=1
-    ):
-
-        print(
-            f"{indice} - "
-            f"{dados['titulo']}"
-        )
-    
-    numero = int(
-        input(
-            "\nDigite o número da tarefa: "
-        )
-    )
-
-    if numero < 1 or numero > len(tarefas):
-
-        print(
-            "\n❌ Número inválido."
-        )
-
+    if tarefas is None:
         return
 
-    indice = numero - 1
+    indice = escolher_tarefa(tarefas)
+
+    if indice is None:
+        return
 
     dados = tarefas[indice]
 
@@ -136,43 +106,15 @@ def salvar_tarefas(tarefas):
 
 def excluir_tarefa():
 
-    tarefas = carregar_tarefas()
+    tarefas = obter_tarefas()
 
-    if not tarefas:
-
-        print(
-            "\nNenhuma tarefa encontrada."
-        )
-
+    if tarefas is None:
         return
     
-    print("\n=== TAREFAS ===")
+    indice = escolher_tarefa(tarefas)
 
-    for indice, dados in enumerate(
-        tarefas,
-        start=1
-    ):
-
-        print(
-            f"{indice} - "
-            f"{dados['titulo']}"
-        )
-    
-    numero = int(
-        input(
-            "\nDigite o número da tarefa: "
-        )
-    )
-
-    if numero < 1 or numero > len(tarefas):
-
-        print(
-            "\n❌ Número inválido."
-        )
-
+    if indice is None:
         return
-
-    indice = numero - 1
 
     removida = tarefas.pop(indice)
 
@@ -186,11 +128,9 @@ def excluir_tarefa():
 
 def mostrar_estatísticas():
 
-    tarefas = carregar_tarefas()
+    tarefas = obter_tarefas()
 
-    if not tarefas:
-
-        print("\nNenhuma tarefa encontrada")
+    if tarefas is None:
         return
     
     total = len(tarefas)
@@ -256,43 +196,15 @@ def mostrar_estatísticas():
     
 def editar_tarefa():
 
-    tarefas = carregar_tarefas()
+    tarefas = obter_tarefas()
 
-    if not tarefas:
-
-        print(
-            "\nNenhuma tarefa encontrada."
-        )
-
+    if tarefas is None:
         return
     
-    print("\n=== TAREFAS ===")
+    indice = escolher_tarefa(tarefas)
 
-    for indice, dados in enumerate(
-        tarefas,
-        start=1
-    ):
-
-        print(
-            f"{indice} - "
-            f"{dados['titulo']}"
-        )
-    
-    numero = int(
-        input(
-            "\nDigite o número da tarefa: "
-        )
-    )
-
-    if numero < 1 or numero > len(tarefas):
-
-        print(
-            "\n❌ Número inválido."
-        )
-
+    if indice is None:
         return
-
-    indice = numero - 1
 
     tarefa = tarefas[indice]
 
@@ -361,14 +273,9 @@ def editar_tarefa():
 
 def filtrar_tarefas():
 
-    tarefas = carregar_tarefas()
+    tarefas = obter_tarefas()
 
-    if not tarefas:
-
-        print(
-            "\nNenhuma tarefa encontrada."
-        )
-
+    if tarefas is None:
         return
     
     print("\n=== FILTROS ===")
@@ -454,14 +361,9 @@ def filtrar_tarefas():
 
 def buscar_tarefa():
 
-    tarefas = carregar_tarefas()
+    tarefas = obter_tarefas()
 
-    if not tarefas:
-
-        print(
-            "\nNenhuma tarefa encontrada."
-        )
-
+    if tarefas is None:
         return
 
     texto = input(
@@ -490,3 +392,51 @@ def buscar_tarefa():
         )
 
         tarefa.exibir()
+
+def obter_tarefas():
+
+    tarefas = carregar_tarefas()
+
+    if not tarefas:
+
+        print(
+            "\nNenhuma tarefa encontrada."
+        )
+
+        return None
+    
+    return tarefas
+
+def listar_titulos(tarefas):
+
+    print("\n=== TAREFAS ===")
+
+    for indice, tarefa in enumerate(
+        tarefas,
+        start=1
+    ):
+        
+        print(
+            f"{indice} - "
+            f"{tarefa['titulo']}"
+        )
+
+def escolher_tarefa(tarefas):
+
+    listar_titulos(tarefas)
+
+    numero = int(
+        input(
+            "\nDigite o número da tarefa: "
+        )
+    )
+
+    if numero < 1 or numero > len(tarefas):
+
+        print(
+            "\n❌ Número inválido."
+        )
+
+        return None
+    
+    return numero - 1
