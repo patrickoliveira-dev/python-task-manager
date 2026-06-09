@@ -6,9 +6,10 @@ class Tarefa:
         self,
         titulo,
         descricao,
+        prioridade="Média",
         concluida=False,
         data_criacao=None,
-        data_conclusao=None
+        data_conclusao=None,
     ):
 
         self.titulo = titulo
@@ -25,6 +26,8 @@ class Tarefa:
         self.data_conclusao = (
             data_conclusao
         )
+
+        self.prioridade = prioridade
     
     def exibir(self):
 
@@ -43,12 +46,25 @@ class Tarefa:
                 f"🏁 Concluída em: "
                 f"{self.data_conclusao}"
             )
+        if self.prioridade == "Alta":
+            emoji = "🔴"
+
+        elif self.prioridade == "Média":
+            emoji = "🟡"
+
+        else:
+            emoji = "🟢"
+        print(
+            f"{emoji} Prioridade: "
+            f"{self.prioridade}"
+        )
     
     def to_dict(self):
 
         return {
             "titulo": self.titulo,
             "descricao": self.descricao,
+            "prioridade": self.prioridade,
             "concluida": self.concluida,
             "data_criacao": self.data_criacao,
             "data_conclusao": self.data_conclusao
@@ -60,9 +76,13 @@ class Tarefa:
         tarefa = cls(
             dados["titulo"],
             dados["descricao"],
+            dados.get(
+                "prioridade",
+                "Média"
+            ),
             dados["concluida"],
             dados["data_criacao"],
-            dados["data_conclusao"]
+            dados["data_conclusao"],
         )
 
         return tarefa

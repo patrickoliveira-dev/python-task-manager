@@ -41,7 +41,15 @@ def carregar_tarefas():
             encoding="utf-8"
         ) as arquivo:
             
-            return json.load(arquivo)
+            tarefas = json.load(arquivo)
+
+            for tarefa in tarefas:
+
+                if "prioridade" not in tarefa:
+
+                    tarefa["prioridade"] = "Média"
+                
+            return tarefas
         
     except FileNotFoundError:
 
@@ -220,14 +228,6 @@ def mostrar_estatísticas():
 
     primeira_criada = tarefas[0]
 
-    ultima_concluida = max(
-        tarefas_concluidas,
-        key=lambda tarefa: datetime.strptime(
-            tarefa["data_conclusao"],
-            "%d/%m/%Y %H:%M:%S"
-        )
-    )
-
     print("\n=== ESTATÍSTICAS ===")
 
     print(f"\n📊 Total de tarefas: {total}")
@@ -321,6 +321,37 @@ def editar_tarefa():
     if nova_descricao:
 
         tarefa["descricao"] = nova_descricao
+    
+    print(
+        f"\nPrioridade atual: "
+        f"{tarefa['prioridade']}"
+    )
+
+    while True:
+
+        nova_prioridade = input(
+            "\nNova prioridade: "
+            "\n1 - Baixa"
+            "\n2 - Média"
+            "\n3 - Alta"
+            "\n\nEscolha: "
+        )
+
+        if nova_prioridade == "1":
+            tarefa["prioridade"] = "Baixa"
+            break
+
+        elif nova_prioridade == "2":
+            tarefa["prioridade"] = "Média"
+            break
+
+        elif nova_prioridade == "3":
+            tarefa["prioridade"] = "Alta"
+            break
+
+        print(
+            "\n❌ Prioridade inválida."
+        )
 
     salvar_tarefas(tarefas)
 
@@ -342,9 +373,12 @@ def filtrar_tarefas():
     
     print("\n=== FILTROS ===")
 
-    print("1 - Todas")
+    print("\n1 - Todas")
     print("2 - Pendentes")
     print("3 - Concluídas")
+    print("4 - Prioridade Alta")
+    print("5 - Prioridade Média")
+    print("6 - Prioridade Baixa")
 
     opcao = input(
         "\nEscolha uma opção: "
@@ -370,6 +404,30 @@ def filtrar_tarefas():
             if tarefa["concluida"]
         ]
     
+    elif opcao == "4":
+
+        tarefas_filtradas = [
+            tarefa
+            for tarefa in tarefas
+            if tarefa["prioridade"] == "Alta"
+        ]
+
+    elif opcao == "5":
+
+        tarefas_filtradas = [
+            tarefa
+            for tarefa in tarefas
+            if tarefa["prioridade"] == "Média"
+        ]
+
+    elif opcao == "6":
+
+        tarefas_filtradas = [
+            tarefa
+            for tarefa in tarefas
+            if tarefa["prioridade"] == "Baixa"
+        ]
+
     else:
 
         print(

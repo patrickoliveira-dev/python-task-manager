@@ -14,7 +14,7 @@ from tarefas import (
 while True:
 
     print("\n=== TASK MANAGER ===")
-    print("1 - Adicionar tarefa")
+    print("\n1 - Adicionar tarefa")
     print("2 - Listar tarefas")
     print("3 - Concluir tarefa")
     print("4 - Excluir tarefa")
@@ -30,16 +30,42 @@ while True:
 
         titulo = input("\nDigite um título para a tarefa: ")
         descricao = input("\nDigite a descrição da tarefa: ")
+        
+        print("\n=== PRIORIDADE ===")
+
+        print("\n1 - Baixa")
+        print("2 - Média")
+        print("3 - Alta")
+
+        prioridade_opcao = input("\nDefina a prioridade para a tarefa: ")
+
+        if prioridade_opcao == "1":
+            prioridade = "Baixa"
+
+        elif prioridade_opcao == "2":
+            prioridade = "Média"
+
+        elif prioridade_opcao == "3":
+            prioridade = "Alta"
+        
+        else:
+
+            print(
+                "\n❌ Prioridade inválida."
+            )
+
+            continue
 
         tarefa = Tarefa(
             titulo,
-            descricao
+            descricao,
+            prioridade
         )
 
         salvar_tarefa(tarefa)
 
         print(
-        "\n✅ Tarefa adicionada com sucesso."
+            "\n✅ Tarefa adicionada com sucesso."
         )
     
     elif opcao == "2":
@@ -72,9 +98,14 @@ while True:
 
     elif opcao == "9":
 
-        print("\nEncerrando programa...")
+        print(
+            "\nEncerrando programa..."
+        )
+
         break
 
     else:
 
-        print("\nOpção inválida.")
+        print(
+            "\nOpção inválida."
+        )
