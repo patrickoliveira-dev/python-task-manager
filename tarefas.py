@@ -2,6 +2,13 @@ import json
 from models.tarefa import Tarefa
 from datetime import datetime
 
+prioridades = {
+
+            "Alta": 3,
+            "Média": 2,
+            "Baixa": 1
+        }
+
 def salvar_tarefa(tarefa):
 
     nova_tarefa = tarefa.to_dict()
@@ -287,15 +294,24 @@ def filtrar_tarefas():
     print("5 - Prioridade Média")
     print("6 - Prioridade Baixa")
 
-    opcao = input(
-        "\nEscolha uma opção: "
-    )
+    try:
 
-    if opcao == "1":
+        opcao = int(
+            input(
+                "\nEscolha uma opção: "
+            )
+        )
+    
+    except ValueError:
+        
+        print("\n❌ Escolha uma opção válida.")
+        return
+
+    if opcao == 1:
 
         tarefas_filtradas = tarefas
 
-    elif opcao == "2":
+    elif opcao == 2:
 
         tarefas_filtradas = [
             tarefa
@@ -303,7 +319,7 @@ def filtrar_tarefas():
             if not tarefa["concluida"]
         ]
     
-    elif opcao == "3":
+    elif opcao == 3:
 
         tarefas_filtradas = [
             tarefa
@@ -311,7 +327,7 @@ def filtrar_tarefas():
             if tarefa["concluida"]
         ]
     
-    elif opcao == "4":
+    elif opcao == 4:
 
         tarefas_filtradas = [
             tarefa
@@ -319,7 +335,7 @@ def filtrar_tarefas():
             if tarefa["prioridade"] == "Alta"
         ]
 
-    elif opcao == "5":
+    elif opcao == 5:
 
         tarefas_filtradas = [
             tarefa
@@ -327,7 +343,7 @@ def filtrar_tarefas():
             if tarefa["prioridade"] == "Média"
         ]
 
-    elif opcao == "6":
+    elif opcao == 6:
 
         tarefas_filtradas = [
             tarefa
@@ -425,11 +441,18 @@ def escolher_tarefa(tarefas):
 
     listar_titulos(tarefas)
 
-    numero = int(
-        input(
-            "\nDigite o número da tarefa: "
+    try:
+
+        numero = int(
+            input(
+                "\nDigite o número da tarefa: "
+            )
         )
-    )
+    
+    except ValueError:
+        
+        print("\n❌ Digite um número válido.")
+        return
 
     if numero < 1 or numero > len(tarefas):
 
@@ -440,3 +463,149 @@ def escolher_tarefa(tarefas):
         return None
     
     return numero - 1
+
+def ordenar_tarefas():
+
+    tarefas = obter_tarefas()
+
+    if tarefas is None:
+        return
+    
+    print("\n=== ORDENAÇÃO ===")
+
+    print("\n1 - Título")
+    print("2 - Data de criação")
+    print("3 - Prioridade")
+    print("4 - Prioridade + Data")
+
+    try:
+
+        opcao = int(
+            input(
+                "\nEscolha uma opção: "
+            )
+        )
+    
+    except ValueError:
+        
+        print("\n❌ Escolha uma opção válida.")
+        return
+
+    if opcao == 1:
+
+        tarefas_ordenadas = sorted(
+            tarefas,
+            key=lambda tarefa: tarefa["titulo"]
+        )
+    
+    elif opcao == 2:
+
+        tarefas_ordenadas = sorted(
+            tarefas,
+            key=lambda tarefa:
+                datetime.strptime(
+                    tarefa["data_criacao"],
+                    "%d/%m/%Y %H:%M:%S"
+                )
+        )
+    
+    elif opcao == 3:
+
+        tarefas_ordenadas = sorted(
+            tarefas,
+            key=lambda tarefa:
+                prioridades[
+                    tarefa["prioridade"]
+                ],
+            reverse=True
+        )
+
+    elif opcao == 4:
+
+        tarefas_ordenadas = sorted(
+            tarefas,
+            key=lambda tarefa: (
+                prioridades[
+                    tarefa["prioridade"]
+                ],
+                datetime.strptime(
+                    tarefa["data_criacao"],
+                    "%d/%m/%Y %H:%M:%S"
+                )
+            ),
+            reverse=True
+        )
+    
+    else:
+        
+        print("\n❌ Opção inválida.")
+        return
+    
+    for dados in tarefas_ordenadas:
+
+        tarefa = Tarefa.from_dict(
+            dados
+        )
+
+        tarefa.exibir()
+
+def exportar_tarefas():
+
+    tarefas = obter_tarefas()
+
+    if tarefas is None:
+        return
+    
+    with open(
+        "relatorio_tarefas.txt",
+        "w",
+        encoding="utf-8"
+    ) as arquivo:
+        
+        for dados in tarefas:
+
+            arquivo.write(
+                f"📌 Título: "
+                f"{dados['titulo']}\n"
+            )
+
+            arquivo.write(
+                f"📝 Descrição: "
+                f"{dados['descricao']}\n"
+            )
+
+            arquivo.write(
+                f"🎯 Prioridade: "
+                f"{dados['prioridade']}\n"
+            )
+
+            status = (
+                "Sim"
+                if dados["concluida"]
+                else "Não"
+            )
+
+            arquivo.write(
+                f"✅ Concluída: {status}\n"
+            )
+
+            arquivo.write(
+                f"🕒 Criada em: "
+                f"{dados['data_criacao']}\n"
+            )
+
+            if dados["data_conclusao"]:
+
+                arquivo.write(
+                    f"🏁 Concluída em: "
+                    f"{dados['data_conclusao']}\n"
+                )
+            
+            arquivo.write(
+                "\n" + "=" * 40 + "\n\n"
+            )
+
+    print(
+        "\n📄 Relatório exportado "
+        "com sucesso."
+    )

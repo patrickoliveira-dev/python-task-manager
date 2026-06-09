@@ -2,25 +2,68 @@
 
 A command-line task management application developed in Python.
 
-This project was created as a practical study of software development fundamentals, including Object-Oriented Programming (OOP), data persistence, modular architecture, error handling, and JSON manipulation.
+This project was created as a practical study of software development fundamentals, including Object-Oriented Programming (OOP), data persistence, modular architecture, error handling, data processing, sorting algorithms, and software refactoring.
 
 ## Features
 
+### Task Management
+
 * Create tasks
 * List all tasks
+* Edit tasks
+* Delete tasks
 * Mark tasks as completed
-* Automatic creation date and time
+
+### Task Information
+
+* Title
+* Description
+* Priority levels (Low, Medium, High)
+* Creation date and time
 * Completion date and time
-* Persistent storage using JSON
-* Object-Oriented design
-* Modular project structure
-* Error handling for corrupted JSON files
+
+### Search and Filtering
+
+* Search tasks by title or description
+* Filter all tasks
+* Filter pending tasks
+* Filter completed tasks
+* Filter by priority
+
+### Sorting
+
+* Sort by title
+* Sort by creation date
+* Sort by priority
+* Sort by priority and creation date
+
+### Statistics
+
+* Total number of tasks
+* Completed tasks count
+* Pending tasks count
+* Completion rate
+* First created task
+* Last completed task
+
+### Exporting
+
+* Export all tasks to a text report (`relatorio_tarefas.txt`)
+
+### Persistence
+
+* JSON-based storage
+* Automatic loading and saving
+* Protection against corrupted JSON files
+* Backward compatibility for tasks created before the priority feature
 
 ## Technologies
 
 * Python 3
 * JSON
 * Object-Oriented Programming (OOP)
+* Git
+* GitHub
 
 ## Project Structure
 
@@ -65,24 +108,50 @@ This project was built to practice:
 * Classes and objects
 * Constructors (`__init__`)
 * Class methods
-* Data serialization
+* Object serialization
+* JSON persistence
 * File handling
 * Error handling
-* Modularization
-* Git and GitHub workflow
+* Modular architecture
+* Refactoring
+* Sorting algorithms
+* Data filtering
+* Searching algorithms
+* Git workflow
+* GitHub workflow
+
+## Current Version
+
+### v1.0.0
+
+Completed features:
+
+* Task creation
+* Task listing
+* Task editing
+* Task deletion
+* Task completion
+* Priority system
+* Statistics dashboard
+* Task filtering
+* Task searching
+* Task sorting
+* Report exporting
+* Refactoring of duplicated code
+* Input validation improvements
 
 ## Future Improvements
 
-* Delete tasks
-* Edit tasks
-* Task statistics
 * Task categories
-* Task priorities
 * Task deadlines
 * Notifications
+* Recurring tasks
 * Specialized task types using inheritance
-* Graphical user interface (GUI)
+* CSV export
 * Database integration
+* Graphical User Interface (GUI)
+* Web version using Flask or Django
+* REST API
 
 ## Author
 
